@@ -3,6 +3,7 @@ import { dbConnection } from '~/middlewares/db-connection'
 import Category from './Category.model'
 import Specification from './Specification.model'
 import ProductImage from './ProductImage.model'
+import Document from './Documentation.model'
 
 const Product = dbConnection.define(
   'Product',
@@ -33,8 +34,12 @@ const Product = dbConnection.define(
         key: 'categoryID',
       },
     },
-    documentID: {
+    documentationID: {
       type: DataTypes.INTEGER,
+      references: {
+        model: Document,
+        key: 'documentationID',
+      },
     },
     productName: {
       type: DataTypes.STRING,
@@ -58,7 +63,7 @@ const Product = dbConnection.define(
   {
     tableName: 'products',
     timestamps: true,
-  }
+  },
 )
 
 export default Product

@@ -10,7 +10,7 @@ const FeaturedImage = dbConnection.define(
       autoIncrement: true,
     },
     featuredImage: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
     },
     thumbnail: {
       type: DataTypes.STRING,
@@ -25,7 +25,7 @@ const FeaturedImage = dbConnection.define(
   {
     tableName: 'featured_images',
     timestamps: true,
-  }
+  },
 )
 
 export default FeaturedImage

@@ -3,10 +3,10 @@ import { dbConnection } from '~/middlewares/db-connection'
 import Product from './Product.model'
 import User from './User.model'
 
-const Quotation = dbConnection.define(
-  'Quotation',
+const StockInputStory = dbConnection.define(
+  'StockInputStory',
   {
-    quotationID: {
+    stockInputStoryID: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
@@ -25,17 +25,20 @@ const Quotation = dbConnection.define(
         key: 'userID',
       },
     },
-    orderNumber: {
-      type: DataTypes.INTEGER,
+    quantity: {
+      type: DataTypes.NUMBER,
+    },
+    stockInDate: {
+      type: DataTypes.STRING,
     },
     slug: {
       type: DataTypes.STRING,
     },
   },
   {
-    tableName: 'quotation',
+    tableName: 'stock_input_stories',
     timestamps: true,
   },
 )
 
-export default Quotation
+export default StockInputStory

@@ -1,18 +1,29 @@
 import { DataTypes } from 'sequelize'
 import { dbConnection } from '~/middlewares/db-connection'
+import User from './User.model'
 
-const DocType = dbConnection.define(
-  'DocType',
+const ContactService = dbConnection.define(
+  'ContactService',
   {
-    docTypeID: {
+    contactID: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
+    userID: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: User,
+        key: 'userID',
+      },
+    },
+    zaloID: {
       type: DataTypes.STRING,
     },
-    description: {
+    userName: {
+      type: DataTypes.STRING,
+    },
+    phone: {
       type: DataTypes.STRING,
     },
     orderNumber: {
@@ -23,9 +34,9 @@ const DocType = dbConnection.define(
     },
   },
   {
-    tableName: 'doc_types',
+    tableName: 'contact_services',
     timestamps: true,
   },
 )
 
-export default DocType
+export default ContactService

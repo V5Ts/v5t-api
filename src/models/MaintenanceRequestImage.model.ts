@@ -2,10 +2,10 @@ import { DataTypes } from 'sequelize'
 import { dbConnection } from '~/middlewares/db-connection'
 import FeaturedImage from './FeaturedImage.model'
 
-const ProductImage = dbConnection.define(
-  'ProductImage',
+const MaintenanceRequestImage = dbConnection.define(
+  'MaintenanceRequestImage',
   {
-    productImageID: {
+    requestImageID: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
@@ -17,12 +17,6 @@ const ProductImage = dbConnection.define(
         key: 'featuredImageID',
       },
     },
-    featuredImage: {
-      type: DataTypes.STRING,
-    },
-    thumbnail: {
-      type: DataTypes.STRING,
-    },
     orderNumber: {
       type: DataTypes.INTEGER,
     },
@@ -31,9 +25,9 @@ const ProductImage = dbConnection.define(
     },
   },
   {
-    tableName: 'product_images',
+    tableName: 'maintenance_request_images',
     timestamps: true,
   },
 )
 
-export default ProductImage
+export default MaintenanceRequestImage

@@ -1,27 +1,27 @@
 import { DataTypes } from 'sequelize'
 import { dbConnection } from '~/middlewares/db-connection'
-import FeaturedImage from './FeaturedImage.model'
+import Product from './Product.model'
 
-const ProductImage = dbConnection.define(
-  'ProductImage',
+const ProjectItem = dbConnection.define(
+  'ProjectItem',
   {
-    productImageID: {
+    projectItemID: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    featuredImageID: {
+    productID: {
       type: DataTypes.INTEGER,
       references: {
-        model: FeaturedImage,
-        key: 'featuredImageID',
+        model: Product,
+        key: 'productID',
       },
     },
-    featuredImage: {
-      type: DataTypes.STRING,
+    quantity: {
+      type: DataTypes.NUMBER,
     },
-    thumbnail: {
-      type: DataTypes.STRING,
+    projectStatus: {
+      type: DataTypes.INTEGER,
     },
     orderNumber: {
       type: DataTypes.INTEGER,
@@ -31,9 +31,9 @@ const ProductImage = dbConnection.define(
     },
   },
   {
-    tableName: 'product_images',
+    tableName: 'project_items',
     timestamps: true,
   },
 )
 
-export default ProductImage
+export default ProjectItem

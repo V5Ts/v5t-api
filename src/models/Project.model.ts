@@ -1,21 +1,22 @@
 import { DataTypes } from 'sequelize'
 import { dbConnection } from '~/middlewares/db-connection'
-import Product from './Product.model'
+import Category from './Category.model'
 import User from './User.model'
+import ProjectImage from './ProjectImage.model'
 
-const Quotation = dbConnection.define(
-  'Quotation',
+const Project = dbConnection.define(
+  'Project',
   {
-    quotationID: {
+    projectID: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    productID: {
+    projectImageID: {
       type: DataTypes.INTEGER,
       references: {
-        model: Product,
-        key: 'productID',
+        model: ProjectImage,
+        key: 'projectImageID',
       },
     },
     userID: {
@@ -25,6 +26,19 @@ const Quotation = dbConnection.define(
         key: 'userID',
       },
     },
+    projectItemID: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: Category,
+        key: 'categoryID',
+      },
+    },
+    name: {
+      type: DataTypes.STRING,
+    },
+    projectStatus: {
+      type: DataTypes.INTEGER,
+    },
     orderNumber: {
       type: DataTypes.INTEGER,
     },
@@ -33,9 +47,9 @@ const Quotation = dbConnection.define(
     },
   },
   {
-    tableName: 'quotation',
+    tableName: 'projects',
     timestamps: true,
   },
 )
 
-export default Quotation
+export default Project

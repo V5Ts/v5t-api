@@ -33,7 +33,7 @@ const Specification = dbConnection.define(
   {
     tableName: 'specifications',
     timestamps: true,
-  }
+  },
 )
 
 export default Specification

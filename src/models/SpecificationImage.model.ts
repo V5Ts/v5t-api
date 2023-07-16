@@ -30,7 +30,7 @@ const SpecificationImage = dbConnection.define(
   {
     tableName: 'specification_images',
     timestamps: true,
-  }
+  },
 )
 
 export default SpecificationImage

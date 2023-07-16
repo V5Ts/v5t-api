@@ -1,27 +1,36 @@
 import { DataTypes } from 'sequelize'
 import { dbConnection } from '~/middlewares/db-connection'
-import FeaturedImage from './FeaturedImage.model'
+import User from './User.model'
 
-const ProductImage = dbConnection.define(
-  'ProductImage',
+const News = dbConnection.define(
+  'News',
   {
-    productImageID: {
+    newsID: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    featuredImageID: {
+    userID: {
       type: DataTypes.INTEGER,
       references: {
-        model: FeaturedImage,
-        key: 'featuredImageID',
+        model: User,
+        key: 'userID',
       },
     },
-    featuredImage: {
+    title: {
       type: DataTypes.STRING,
     },
-    thumbnail: {
+    summary: {
       type: DataTypes.STRING,
+    },
+    content: {
+      type: DataTypes.STRING,
+    },
+    newsStatus: {
+      type: DataTypes.INTEGER,
+    },
+    postStatus: {
+      type: DataTypes.INTEGER,
     },
     orderNumber: {
       type: DataTypes.INTEGER,
@@ -31,9 +40,9 @@ const ProductImage = dbConnection.define(
     },
   },
   {
-    tableName: 'product_images',
+    tableName: 'news',
     timestamps: true,
   },
 )
 
-export default ProductImage
+export default News

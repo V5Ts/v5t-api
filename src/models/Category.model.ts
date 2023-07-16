@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize'
 import { dbConnection } from '~/middlewares/db-connection'
+import FeaturedImage from './FeaturedImage.model'
 
 const Category = dbConnection.define(
   'Category',
@@ -11,6 +12,10 @@ const Category = dbConnection.define(
     },
     featuredImageID: {
       type: DataTypes.INTEGER,
+      references: {
+        model: FeaturedImage,
+        key: 'featuredImageID',
+      },
     },
     name: {
       type: DataTypes.STRING,
@@ -25,7 +30,7 @@ const Category = dbConnection.define(
   {
     tableName: 'categories',
     timestamps: true,
-  }
+  },
 )
 
 export default Category

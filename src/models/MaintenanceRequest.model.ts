@@ -2,14 +2,22 @@ import { DataTypes } from 'sequelize'
 import { dbConnection } from '~/middlewares/db-connection'
 import Product from './Product.model'
 import User from './User.model'
+import MaintenanceRequestImage from './MaintenanceRequestImage.model'
 
-const Quotation = dbConnection.define(
-  'Quotation',
+const MaintenanceRequest = dbConnection.define(
+  'MaintenanceRequest',
   {
-    quotationID: {
+    requestID: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+    },
+    requestImageID: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: MaintenanceRequestImage,
+        key: 'requestImageID',
+      },
     },
     productID: {
       type: DataTypes.INTEGER,
@@ -25,6 +33,21 @@ const Quotation = dbConnection.define(
         key: 'userID',
       },
     },
+    fullName: {
+      type: DataTypes.STRING,
+    },
+    userName: {
+      type: DataTypes.STRING,
+    },
+    phone: {
+      type: DataTypes.STRING,
+    },
+    location: {
+      type: DataTypes.STRING,
+    },
+    whoYou: {
+      type: DataTypes.STRING,
+    },
     orderNumber: {
       type: DataTypes.INTEGER,
     },
@@ -33,9 +56,9 @@ const Quotation = dbConnection.define(
     },
   },
   {
-    tableName: 'quotation',
+    tableName: 'maintenance_requests',
     timestamps: true,
   },
 )
 
-export default Quotation
+export default MaintenanceRequest

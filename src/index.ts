@@ -15,14 +15,14 @@ router.use((req: Request, res: Response, next: NextFunction) => {
   /** Log the req */
   logging.info(
     NAMESPACE,
-    `METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`
+    `METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`,
   )
 
   res.on('finish', () => {
     /** Log the res */
     logging.info(
       NAMESPACE,
-      `METHOD: [${req.method}] - URL: [${req.url}] - STATUS: [${res.statusCode}] - IP: [${req.socket.remoteAddress}]`
+      `METHOD: [${req.method}] - URL: [${req.url}] - STATUS: [${res.statusCode}] - IP: [${req.socket.remoteAddress}]`,
     )
   })
 
@@ -45,7 +45,7 @@ router.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
   res.header(
     'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization',
   )
 
   if (req.method == 'OPTIONS') {
@@ -72,12 +72,12 @@ try {
   router.listen(keys.server.port, () =>
     logging.info(
       NAMESPACE,
-      `⚡️ Server is running on ${keys.server.host}:${keys.server.port}`
-    )
+      `⚡️ Server is running on ${keys.server.host}:${keys.server.port}`,
+    ),
   )
 } catch (error) {
   logging.error(
     NAMESPACE,
-    `Error occurred: ${keys.server.host}:${keys.server.port}`
+    `Error occurred: ${keys.server.host}:${keys.server.port}`,
   )
 }

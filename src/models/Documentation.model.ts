@@ -1,14 +1,11 @@
 import { DataTypes } from 'sequelize'
 import { dbConnection } from '~/middlewares/db-connection'
-import Category from './Category.model'
-import Specification from './Specification.model'
-import ProductImage from './ProductImage.model'
 import DocType from './DocType.model'
 
-const Document = dbConnection.define(
-  'Document',
+const Documentation = dbConnection.define(
+  'Documentation',
   {
-    documentID: {
+    documentationID: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
@@ -37,9 +34,9 @@ const Document = dbConnection.define(
     },
   },
   {
-    tableName: 'documents',
+    tableName: 'documentations',
     timestamps: true,
-  }
+  },
 )
 
-export default Document
+export default Documentation

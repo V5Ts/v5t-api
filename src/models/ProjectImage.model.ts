@@ -1,18 +1,23 @@
 import { DataTypes } from 'sequelize'
 import { dbConnection } from '~/middlewares/db-connection'
+import FeaturedImage from './FeaturedImage.model'
 
-const DocType = dbConnection.define(
-  'DocType',
+const ProjectImage = dbConnection.define(
+  'ProjectImage',
   {
-    docTypeID: {
+    projectImageID: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
-      type: DataTypes.STRING,
+    featuredImageID: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: FeaturedImage,
+        key: 'featuredImageID',
+      },
     },
-    description: {
+    name: {
       type: DataTypes.STRING,
     },
     orderNumber: {
@@ -23,9 +28,9 @@ const DocType = dbConnection.define(
     },
   },
   {
-    tableName: 'doc_types',
+    tableName: 'project_images',
     timestamps: true,
   },
 )
 
-export default DocType
+export default ProjectImage
