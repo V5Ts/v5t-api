@@ -1,10 +1,10 @@
 import { DataTypes } from 'sequelize'
-import { dbConnection } from '~/middlewares/db-connection'
+import { connection } from '~/middlewares/connection'
 import Product from './Product.model'
 import User from './User.model'
 import MaintenanceRequestImage from './MaintenanceRequestImage.model'
 
-const MaintenanceRequest = dbConnection.define(
+const MaintenanceRequest = connection.define(
   'MaintenanceRequest',
   {
     requestID: {

@@ -1,11 +1,11 @@
 import { DataTypes } from 'sequelize'
-import { dbConnection } from '~/middlewares/db-connection'
+import { connection } from '~/middlewares/connection'
 import Category from './Category.model'
 import Specification from './Specification.model'
 import ProductImage from './ProductImage.model'
 import Document from './Documentation.model'
 
-const Product = dbConnection.define(
+const Product = connection.define(
   'Product',
   {
     productID: {

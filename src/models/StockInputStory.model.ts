@@ -1,9 +1,9 @@
 import { DataTypes } from 'sequelize'
-import { dbConnection } from '~/middlewares/db-connection'
+import { connection } from '~/middlewares/connection'
 import Product from './Product.model'
 import User from './User.model'
 
-const StockInputStory = dbConnection.define(
+const StockInputStory = connection.define(
   'StockInputStory',
   {
     stockInputStoryID: {

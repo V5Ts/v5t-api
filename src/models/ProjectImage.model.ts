@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize'
-import { dbConnection } from '~/middlewares/db-connection'
+import { connection } from '~/middlewares/connection'
 import FeaturedImage from './FeaturedImage.model'
 
-const ProjectImage = dbConnection.define(
+const ProjectImage = connection.define(
   'ProjectImage',
   {
     projectImageID: {

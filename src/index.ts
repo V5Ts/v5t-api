@@ -60,7 +60,7 @@ router.use((req, res, next) => {
 router.use('/product', ProductRoutes)
 
 /** Error handling */
-router.use((req, res, next) => {
+router.use((req, res) => {
   const error = new Error('Not found')
 
   res.status(404).json({

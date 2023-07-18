@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize'
-import { dbConnection } from '~/middlewares/db-connection'
+import { connection } from '~/middlewares/connection'
 import User from './User.model'
 
-const ContactService = dbConnection.define(
+const ContactService = connection.define(
   'ContactService',
   {
     contactID: {

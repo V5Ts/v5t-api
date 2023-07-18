@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize'
-import { dbConnection } from '~/middlewares/db-connection'
+import { connection } from '~/middlewares/connection'
 import Product from './Product.model'
 
-const ProjectItem = dbConnection.define(
+const ProjectItem = connection.define(
   'ProjectItem',
   {
     projectItemID: {

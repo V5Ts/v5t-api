@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize'
-import { dbConnection } from '~/middlewares/db-connection'
+import { connection } from '~/middlewares/connection'
 import DocType from './DocType.model'
 
-const Documentation = dbConnection.define(
+const Documentation = connection.define(
   'Documentation',
   {
     documentationID: {

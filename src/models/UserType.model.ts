@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize'
-import { dbConnection } from '~/middlewares/db-connection'
+import { connection } from '~/middlewares/connection'
 
-const UserType = dbConnection.define(
+const UserType = connection.define(
   'UserType',
   {
     userTypeID: {

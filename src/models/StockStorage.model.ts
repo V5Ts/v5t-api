@@ -1,10 +1,10 @@
 import { DataTypes } from 'sequelize'
-import { dbConnection } from '~/middlewares/db-connection'
+import { connection } from '~/middlewares/connection'
 import Product from './Product.model'
 import StockInputStory from './StockInputStory.model'
 import StockOutputStory from './StockOutputStory.model'
 
-const StockStorage = dbConnection.define(
+const StockStorage = connection.define(
   'StockStorage',
   {
     storageID: {

@@ -1,10 +1,10 @@
-import { NextFunction, Request, Response } from 'express'
-import { Connect, Query } from '~/config/database'
+import { Request, Response } from 'express'
+import Product from '~/models/Product.model'
 import logging from '~/utils/logging'
 
 const NAMESPACE = 'Products'
 
-const createNew = async (req: Request, res: Response, next: NextFunction) => {
+const createNew = async (req: Request, res: Response) => {
   const body = {
     categoryID: req.body.categoryID,
     documentID: req.body.documentID,
@@ -16,9 +16,9 @@ const createNew = async (req: Request, res: Response, next: NextFunction) => {
     slug: req.body.slug,
   }
 
-  //   const product = await Products.create(body)
-  //   res.status(200).send(product)
-  //   console.log(product)
+  const product = await Product.create(body)
+  res.status(200).send(product)
+  logging.info(NAMESPACE, 'Product created successfully')
 }
 
 export { createNew }

@@ -1,10 +1,10 @@
 import { DataTypes } from 'sequelize'
-import { dbConnection } from '~/middlewares/db-connection'
+import { connection } from '~/middlewares/connection'
 import Category from './Category.model'
 import User from './User.model'
 import ProjectImage from './ProjectImage.model'
 
-const Project = dbConnection.define(
+const Project = connection.define(
   'Project',
   {
     projectID: {

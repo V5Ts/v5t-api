@@ -6,7 +6,7 @@ const NAMESPACE = '[model/index]'
 
 const { host, port, user, password, database, pool } = keys.mysql
 
-const dbConnection = new Sequelize(database, user, password, {
+const connection = new Sequelize(database, user, password, {
   host: host,
   port: port,
   dialect: 'mysql',
@@ -18,13 +18,13 @@ const dbConnection = new Sequelize(database, user, password, {
   },
 })
 
-dbConnection
+connection
   .authenticate()
   .then(() => {
     logging.info(NAMESPACE, '[✅] Database connected!!!')
   })
   .catch((err) => {
-    logging.error(NAMESPACE, '[❌] Connection fail!!~')
+    logging.error(NAMESPACE, '[❌] Connection fail!!~' + err)
   })
 
-export { dbConnection }
+export { connection }
