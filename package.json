@@ -2,10 +2,10 @@
   "name": "v5t-api",
   "version": "1.0.0",
   "description": "This is project development for creating api for v5t company website.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "build": "rimraf ./build && tsc && tsc-alias",
-    "start": "node build/index.js",
+    "start": "node build/server.js",
     "dev": "npx nodemon",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
