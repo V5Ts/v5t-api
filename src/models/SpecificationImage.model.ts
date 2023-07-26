@@ -1,9 +1,23 @@
-import { DataTypes } from 'sequelize'
-import { connection } from '~/middlewares/connection'
-import FeaturedImage from './FeaturedImage.model'
+import { DataTypes, Model, Optional } from 'sequelize'
+import { SpecificationImage } from '~/utils/interface'
+import sequelize from '~/config/sequelize'
+import FeaturedImageModel from './FeaturedImage.model'
 
-const SpecificationImage = connection.define(
-  'SpecificationImage',
+interface SpecificationImageCreationAttributes
+  extends Optional<SpecificationImage, 'specificationImageID'> {}
+
+class SpecificationImageModel extends Model<
+  SpecificationImage,
+  SpecificationImageCreationAttributes
+> {
+  public specificationImageID!: number
+  public featuredImageID!: number
+  public featuredImage!: number
+  public orderNumber?: number | null
+  public slug?: string | null
+}
+
+SpecificationImageModel.init(
   {
     specificationImageID: {
       type: DataTypes.INTEGER,
@@ -13,7 +27,7 @@ const SpecificationImage = connection.define(
     featuredImageID: {
       type: DataTypes.INTEGER,
       references: {
-        model: FeaturedImage,
+        model: FeaturedImageModel,
         key: 'featuredImageID',
       },
     },
@@ -21,16 +35,22 @@ const SpecificationImage = connection.define(
       type: DataTypes.STRING,
     },
     orderNumber: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.NUMBER,
+      allowNull: true,
     },
     slug: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(20),
+      allowNull: true,
     },
   },
   {
+    sequelize,
     tableName: 'specification_images',
     timestamps: true,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'SpecificationImage',
   },
 )
 
-export default SpecificationImage
+export default SpecificationImageModel

@@ -1,8 +1,17 @@
-import { DataTypes } from 'sequelize'
-import { connection } from '~/middlewares/connection'
+import { DataTypes, Model, Optional } from 'sequelize'
+import sequelize from '~/config/sequelize'
+import { About } from '~/utils/interface'
 
-const About = connection.define(
-  'News',
+interface AboutCreationAttributes extends Optional<About, 'aboutID'> {}
+
+class AboutModel extends Model<About, AboutCreationAttributes> {
+  public aboutID!: number
+  public content!: string | null
+  public orderNumber?: number | null
+  public slug?: string | null
+}
+
+AboutModel.init(
   {
     aboutID: {
       type: DataTypes.INTEGER,
@@ -12,14 +21,23 @@ const About = connection.define(
     content: {
       type: DataTypes.STRING,
     },
+    orderNumber: {
+      type: DataTypes.NUMBER,
+      allowNull: true,
+    },
     slug: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(20),
+      allowNull: true,
     },
   },
   {
-    tableName: 'about',
+    sequelize,
+    tableName: 'abouts',
     timestamps: true,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'AboutModel',
   },
 )
 
-export default About
+export default AboutModel

@@ -1,11 +1,30 @@
-import { DataTypes } from 'sequelize'
-import { connection } from '~/middlewares/connection'
-import Product from './Product.model'
-import StockInputStory from './StockInputStory.model'
-import StockOutputStory from './StockOutputStory.model'
+import { DataTypes, Model, Optional } from 'sequelize'
+import { StockStorage } from '~/utils/interface'
+import sequelize from '~/config/sequelize'
+import ProductModel from './Product.model'
+import StockOutputStoryModel from './StockOutputStory.model'
+import StockInputStoryModel from './StockInputStory.model'
 
-const StockStorage = connection.define(
-  'StockStorage',
+interface StockStorageCreationAttributes
+  extends Optional<StockStorage, 'storageID'> {}
+
+class StockStorageModel extends Model<
+  StockStorage,
+  StockStorageCreationAttributes
+> {
+  public storageID!: number
+  public productID!: number
+  public stockInputStoryID!: number
+  public stockOutputStoryID!: number
+  public name!: string
+  public maximumCapacity!: number
+  public totalItem!: number
+  public location!: string
+  public orderNumber?: number | null
+  public slug?: string | null
+}
+
+StockStorageModel.init(
   {
     storageID: {
       type: DataTypes.INTEGER,
@@ -15,21 +34,21 @@ const StockStorage = connection.define(
     productID: {
       type: DataTypes.INTEGER,
       references: {
-        model: Product,
+        model: ProductModel,
         key: 'productID',
       },
     },
     stockInputStoryID: {
       type: DataTypes.INTEGER,
       references: {
-        model: StockInputStory,
+        model: StockInputStoryModel,
         key: 'stockInputStoryID',
       },
     },
     stockOutputStoryID: {
       type: DataTypes.INTEGER,
       references: {
-        model: StockOutputStory,
+        model: StockOutputStoryModel,
         key: 'stockOutputStoryID',
       },
     },
@@ -48,14 +67,23 @@ const StockStorage = connection.define(
     location: {
       type: DataTypes.STRING,
     },
+    orderNumber: {
+      type: DataTypes.NUMBER,
+      allowNull: true,
+    },
     slug: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(20),
+      allowNull: true,
     },
   },
   {
+    sequelize,
     tableName: 'stock_storages',
     timestamps: true,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'StockStorage',
   },
 )
 
-export default StockStorage
+export default StockStorageModel

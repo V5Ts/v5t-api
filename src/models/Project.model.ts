@@ -1,11 +1,24 @@
-import { DataTypes } from 'sequelize'
-import { connection } from '~/middlewares/connection'
-import Category from './Category.model'
-import User from './User.model'
-import ProjectImage from './ProjectImage.model'
+import { DataTypes, Model, Optional } from 'sequelize'
+import { Project } from '~/utils/interface'
+import sequelize from '~/config/sequelize'
+import CategoryModel from './Category.model'
+import ProjectImageModel from './ProjectImage.model'
+import UserModel from './User.model'
 
-const Project = connection.define(
-  'Project',
+interface ProjectCreationAttributes extends Optional<Project, 'projectID'> {}
+
+class ProjectModel extends Model<Project, ProjectCreationAttributes> {
+  public projectID!: number
+  public projectImageID!: number
+  public userID!: number
+  public projectItemID!: number
+  public name!: string
+  public projectStatus!: number
+  public orderNumber?: number | null
+  public slug?: string | null
+}
+
+ProjectModel.init(
   {
     projectID: {
       type: DataTypes.INTEGER,
@@ -15,21 +28,21 @@ const Project = connection.define(
     projectImageID: {
       type: DataTypes.INTEGER,
       references: {
-        model: ProjectImage,
+        model: ProjectImageModel,
         key: 'projectImageID',
       },
     },
     userID: {
       type: DataTypes.INTEGER,
       references: {
-        model: User,
+        model: UserModel,
         key: 'userID',
       },
     },
     projectItemID: {
       type: DataTypes.INTEGER,
       references: {
-        model: Category,
+        model: CategoryModel,
         key: 'categoryID',
       },
     },
@@ -40,16 +53,22 @@ const Project = connection.define(
       type: DataTypes.INTEGER,
     },
     orderNumber: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.NUMBER,
+      allowNull: true,
     },
     slug: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(20),
+      allowNull: true,
     },
   },
   {
+    sequelize,
     tableName: 'projects',
     timestamps: true,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'Project',
   },
 )
 
-export default Project
+export default ProjectModel

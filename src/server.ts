@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import express, { Express, NextFunction, Request, Response } from 'express'
 import keys from './utils/keys'
 import logging from './utils/logging'
-import { ProductRoutes } from './routes'
+import routes from './routes'
 
 // Configuration
 dotenv.config()
@@ -32,13 +32,6 @@ router.use((req: Request, res: Response, next: NextFunction) => {
 /** Parse the body of the request */
 router.use(express.json())
 router.use(express.urlencoded({ extended: true }))
-router.get('/', async (req: Request, res: Response): Promise<Response> => {
-  return res.status(200).send({
-    message: `Welcome to the cookbook API! \n Endpoints available at ${
-      (keys.server.host, keys.server.port)
-    }`,
-  })
-})
 
 /** Rules of our API */
 router.use((req, res, next) => {
@@ -57,7 +50,7 @@ router.use((req, res, next) => {
 })
 
 /** Routes go here */
-router.use('/product', ProductRoutes)
+router.use(routes)
 
 /** Error handling */
 router.use((req, res) => {

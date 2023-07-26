@@ -1,9 +1,24 @@
-import { DataTypes } from 'sequelize'
-import { connection } from '~/middlewares/connection'
-import SpecificationImage from './SpecificationImage.model'
+import { DataTypes, Model, Optional } from 'sequelize'
+import { Specification } from '~/utils/interface'
+import sequelize from '~/config/sequelize'
+import SpecificationImageModel from './SpecificationImage.model'
 
-const Specification = connection.define(
-  'Specification',
+interface SpecificationCreationAttributes
+  extends Optional<Specification, 'specificationID'> {}
+
+class SpecificationModel extends Model<
+  Specification,
+  SpecificationCreationAttributes
+> {
+  public specificationID!: number
+  public specificationImageID!: number
+  public name!: number
+  public content!: number
+  public orderNumber?: number | null
+  public slug?: string | null
+}
+
+SpecificationModel.init(
   {
     specificationID: {
       type: DataTypes.INTEGER,
@@ -13,7 +28,7 @@ const Specification = connection.define(
     specificationImageID: {
       type: DataTypes.INTEGER,
       references: {
-        model: SpecificationImage,
+        model: SpecificationImageModel,
         key: 'specificationImageID',
       },
     },
@@ -24,16 +39,22 @@ const Specification = connection.define(
       type: DataTypes.STRING,
     },
     orderNumber: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.NUMBER,
+      allowNull: true,
     },
     slug: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(20),
+      allowNull: true,
     },
   },
   {
+    sequelize,
     tableName: 'specifications',
     timestamps: true,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'Specification',
   },
 )
 
-export default Specification
+export default SpecificationModel

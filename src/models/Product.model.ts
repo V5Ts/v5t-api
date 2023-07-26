@@ -1,12 +1,28 @@
-import { DataTypes } from 'sequelize'
-import { connection } from '~/middlewares/connection'
-import Category from './Category.model'
-import Specification from './Specification.model'
-import ProductImage from './ProductImage.model'
-import Document from './Documentation.model'
+import { DataTypes, Model, Optional } from 'sequelize'
+import { Product } from '~/utils/interface'
+import sequelize from '~/config/sequelize'
+import CategoryModel from './Category.model'
+import DocumentationModel from './Documentation.model'
+import ProductImageModel from './ProductImage.model'
+import SpecificationModel from './Specification.model'
 
-const Product = connection.define(
-  'Product',
+interface ProductCreationAttributes extends Optional<Product, 'newsID'> {}
+
+class ProductModel extends Model<Product, ProductCreationAttributes> {
+  public productID!: number
+  public specificationID!: number
+  public productImageID!: number
+  public categoryID!: number
+  public documentationID!: number
+  public productName!: string
+  public productDescription?: string | null
+  public productContent?: string | null
+  public productCode!: string
+  public orderNumber?: number | null
+  public slug?: string | null
+}
+
+ProductModel.init(
   {
     productID: {
       type: DataTypes.INTEGER,
@@ -16,28 +32,28 @@ const Product = connection.define(
     specificationID: {
       type: DataTypes.INTEGER,
       references: {
-        model: Specification,
+        model: SpecificationModel,
         key: 'specificationID',
       },
     },
     productImageID: {
       type: DataTypes.INTEGER,
       references: {
-        model: ProductImage,
+        model: ProductImageModel,
         key: 'productImageID',
       },
     },
     categoryID: {
       type: DataTypes.INTEGER,
       references: {
-        model: Category,
+        model: CategoryModel,
         key: 'categoryID',
       },
     },
     documentationID: {
       type: DataTypes.INTEGER,
       references: {
-        model: Document,
+        model: DocumentationModel,
         key: 'documentationID',
       },
     },
@@ -54,16 +70,22 @@ const Product = connection.define(
       type: DataTypes.STRING,
     },
     orderNumber: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.NUMBER,
+      allowNull: true,
     },
     slug: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(20),
+      allowNull: true,
     },
   },
   {
+    sequelize,
     tableName: 'products',
     timestamps: true,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'Product',
   },
 )
 
-export default Product
+export default ProductModel

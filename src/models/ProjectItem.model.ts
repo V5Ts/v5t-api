@@ -1,9 +1,24 @@
-import { DataTypes } from 'sequelize'
-import { connection } from '~/middlewares/connection'
-import Product from './Product.model'
+import { DataTypes, Model, Optional } from 'sequelize'
+import { ProjectItem } from '~/utils/interface'
+import sequelize from '~/config/sequelize'
+import ProductModel from './Product.model'
 
-const ProjectItem = connection.define(
-  'ProjectItem',
+interface ProjectItemCreationAttributes
+  extends Optional<ProjectItem, 'projectItemID'> {}
+
+class ProjectItemModel extends Model<
+  ProjectItem,
+  ProjectItemCreationAttributes
+> {
+  public projectItemID!: number
+  public productID!: number
+  public quantity!: number
+  public projectStatus!: number
+  public orderNumber?: number | null
+  public slug?: string | null
+}
+
+ProjectItemModel.init(
   {
     projectItemID: {
       type: DataTypes.INTEGER,
@@ -13,7 +28,7 @@ const ProjectItem = connection.define(
     productID: {
       type: DataTypes.INTEGER,
       references: {
-        model: Product,
+        model: ProductModel,
         key: 'productID',
       },
     },
@@ -24,16 +39,22 @@ const ProjectItem = connection.define(
       type: DataTypes.INTEGER,
     },
     orderNumber: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.NUMBER,
+      allowNull: true,
     },
     slug: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(20),
+      allowNull: true,
     },
   },
   {
+    sequelize,
     tableName: 'project_items',
     timestamps: true,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'ProjectItem',
   },
 )
 
-export default ProjectItem
+export default ProjectItemModel

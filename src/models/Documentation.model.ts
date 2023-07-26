@@ -1,9 +1,25 @@
-import { DataTypes } from 'sequelize'
-import { connection } from '~/middlewares/connection'
-import DocType from './DocType.model'
+import { DataTypes, Model, Optional } from 'sequelize'
+import sequelize from '~/config/sequelize'
+import DocTypeModel from './DocType.model'
+import { Documentation } from '~/utils/interface'
 
-const Documentation = connection.define(
-  'Documentation',
+interface DocumentationCreationAttributes
+  extends Optional<Documentation, 'documentationID'> {}
+
+class DocumentationModel extends Model<
+  Documentation,
+  DocumentationCreationAttributes
+> {
+  public documentationID!: number
+  public docTypeID!: number
+  public name!: string
+  public language!: string
+  public size!: number | null
+  public orderNumber?: number | null
+  public slug?: string | null
+}
+
+DocumentationModel.init(
   {
     documentationID: {
       type: DataTypes.INTEGER,
@@ -13,7 +29,7 @@ const Documentation = connection.define(
     docTypeID: {
       type: DataTypes.INTEGER,
       references: {
-        model: DocType,
+        model: DocTypeModel,
         key: 'docTypeID',
       },
     },
@@ -27,16 +43,22 @@ const Documentation = connection.define(
       type: DataTypes.FLOAT,
     },
     orderNumber: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.NUMBER,
+      allowNull: true,
     },
     slug: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(20),
+      allowNull: true,
     },
   },
   {
+    sequelize,
     tableName: 'documentations',
     timestamps: true,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'Documentation',
   },
 )
 
-export default Documentation
+export default DocumentationModel

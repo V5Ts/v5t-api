@@ -1,9 +1,24 @@
-import { DataTypes } from 'sequelize'
-import { connection } from '~/middlewares/connection'
-import FeaturedImage from './FeaturedImage.model'
+import { DataTypes, Model, Optional } from 'sequelize'
+import { ProductImage } from '~/utils/interface'
+import sequelize from '~/config/sequelize'
+import FeaturedImageModel from './FeaturedImage.model'
 
-const ProductImage = connection.define(
-  'ProductImage',
+interface ProductImageCreationAttributes
+  extends Optional<ProductImage, 'productImageID'> {}
+
+class ProductImageModel extends Model<
+  ProductImage,
+  ProductImageCreationAttributes
+> {
+  public productImageID!: number
+  public featuredImageID!: number
+  public featuredImage?: string | null
+  public thumbnail?: string | null
+  public orderNumber?: number | null
+  public slug?: string | null
+}
+
+ProductImageModel.init(
   {
     productImageID: {
       type: DataTypes.INTEGER,
@@ -13,7 +28,7 @@ const ProductImage = connection.define(
     featuredImageID: {
       type: DataTypes.INTEGER,
       references: {
-        model: FeaturedImage,
+        model: FeaturedImageModel,
         key: 'featuredImageID',
       },
     },
@@ -24,16 +39,22 @@ const ProductImage = connection.define(
       type: DataTypes.STRING,
     },
     orderNumber: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.NUMBER,
+      allowNull: true,
     },
     slug: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(20),
+      allowNull: true,
     },
   },
   {
+    sequelize,
     tableName: 'product_images',
     timestamps: true,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'ProductImage',
   },
 )
 
-export default ProductImage
+export default ProductImageModel

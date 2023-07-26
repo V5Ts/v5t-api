@@ -1,9 +1,22 @@
-import { DataTypes } from 'sequelize'
-import { connection } from '~/middlewares/connection'
-import FeaturedImage from './FeaturedImage.model'
+import { DataTypes, Model, Optional } from 'sequelize'
+import { MaintenanceRequestImage } from '~/utils/interface'
+import sequelize from '~/config/sequelize'
+import FeaturedImageModel from './FeaturedImage.model'
 
-const MaintenanceRequestImage = connection.define(
-  'MaintenanceRequestImage',
+interface MaintenanceRequestImageCreationAttributes
+  extends Optional<MaintenanceRequestImage, 'requestImageID'> {}
+
+class MaintenanceRequestImageModel extends Model<
+  MaintenanceRequestImage,
+  MaintenanceRequestImageCreationAttributes
+> {
+  public requestImageID!: number
+  public featuredImageID!: number
+  public orderNumber?: number | null
+  public slug?: string | null
+}
+
+MaintenanceRequestImageModel.init(
   {
     requestImageID: {
       type: DataTypes.INTEGER,
@@ -13,21 +26,27 @@ const MaintenanceRequestImage = connection.define(
     featuredImageID: {
       type: DataTypes.INTEGER,
       references: {
-        model: FeaturedImage,
+        model: FeaturedImageModel,
         key: 'featuredImageID',
       },
     },
     orderNumber: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.NUMBER,
+      allowNull: true,
     },
     slug: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(20),
+      allowNull: true,
     },
   },
   {
+    sequelize,
     tableName: 'maintenance_request_images',
     timestamps: true,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'MaintenanceRequestImage',
   },
 )
 
-export default MaintenanceRequestImage
+export default MaintenanceRequestImageModel
