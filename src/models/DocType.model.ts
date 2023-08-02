@@ -1,10 +1,10 @@
 import { DataTypes, Model, Optional } from 'sequelize'
 import sequelize from '~/config/sequelize'
-import { DocType } from '~/utils/interface'
+import { Doctype } from '~/utils/interface'
 
-interface DocTypeCreationAttributes extends Optional<DocType, 'docTypeID'> {}
+interface DoctypeCreationAttributes extends Optional<Doctype, 'docTypeID'> {}
 
-class DocTypeModel extends Model<DocType, DocTypeCreationAttributes> {
+class DoctypeModel extends Model<Doctype, DoctypeCreationAttributes> {
   public docTypeID!: number
   public name!: string
   public description!: string
@@ -12,9 +12,9 @@ class DocTypeModel extends Model<DocType, DocTypeCreationAttributes> {
   public slug?: string | null
 }
 
-DocTypeModel.init(
+DoctypeModel.init(
   {
-    docTypeID: {
+    doctypeID: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
@@ -40,8 +40,8 @@ DocTypeModel.init(
     timestamps: true,
     freezeTableName: true,
     underscored: true,
-    modelName: 'DocType',
+    modelName: 'Doctype',
   },
 )
 
-export default DocTypeModel
+export default DoctypeModel

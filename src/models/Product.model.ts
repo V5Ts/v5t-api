@@ -2,7 +2,7 @@ import { DataTypes, Model, Optional } from 'sequelize'
 import { Product } from '~/utils/interface'
 import sequelize from '~/config/sequelize'
 import CategoryModel from './Category.model'
-import DocumentationModel from './Documentation.model'
+import DocumentationModel from './Document.model'
 import ProductImageModel from './ProductImage.model'
 import SpecificationModel from './Specification.model'
 

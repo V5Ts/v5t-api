@@ -81,4 +81,4 @@ MaintenanceRequestModel.init(
   },
 )
 
-export default MaintenanceRequest
+export default MaintenanceRequestModel

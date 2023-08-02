@@ -1,10 +1,32 @@
 import { Sequelize } from 'sequelize'
 import keys from '~/utils/keys'
 import logging from '~/utils/logging'
+import { createPool } from 'mysql2'
 
-const NAMESPACE = '[model/index]'
+const NAMESPACE = '[config/sequelize]'
 
 const { host, port, user, password, database, pool } = keys.mysql
+
+const poolConfig = createPool({
+  host,
+  port,
+  user,
+  password,
+})
+
+const createDatabaseIfNotExists = async (dbName: string): Promise<void> => {
+  try {
+    await poolConfig
+      .promise()
+      .query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\`;`)
+    logging.info(
+      NAMESPACE,
+      `[✅] Database "${dbName}" created or already exists.`,
+    )
+  } catch (err) {
+    logging.error(NAMESPACE, `[❌] Database "${dbName}" creation failed:`, err)
+  }
+}
 
 const sequelize = new Sequelize(database, user, password, {
   host: host,
@@ -18,13 +40,18 @@ const sequelize = new Sequelize(database, user, password, {
   },
 })
 
-sequelize
-  .authenticate()
-  .then(() => {
-    logging.info(NAMESPACE, '[✅] Database connected!!!')
-  })
-  .catch((err) => {
-    logging.error(NAMESPACE, '[❌] Connection fail!!~' + err)
-  })
+// Create the main database if it doesn't exist
+createDatabaseIfNotExists(database).then(() => {
+  const connectToDatabase = async () => {
+    try {
+      await sequelize.authenticate()
+      logging.info(NAMESPACE, '[✅] Database connected!!!')
+    } catch (err) {
+      logging.error(NAMESPACE, '[❌] Connection failed!!~', err)
+    }
+  }
+
+  connectToDatabase()
+})
 
 export default sequelize

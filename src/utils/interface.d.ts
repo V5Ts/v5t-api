@@ -1,12 +1,12 @@
 export interface BaseModel {
   [key: string]: any
-  orderNumber?: number
-  slug?: string
+  order_number?: number | null
+  slug?: string | null
 }
 
-export interface Category extends BaseModel {
-  categoryID: number
-  featuredImageID: number
+export interface CategoryAttributes extends BaseModel {
+  category_id: number
+  featured_image_id: number
   name: string
 }
 
@@ -40,10 +40,16 @@ export interface FeaturedImage extends BaseModel {
   thumbnail: string
 }
 
-export interface DocType extends BaseModel {
-  docTypeID: number
+export interface Doctype extends BaseModel {
+  doctypeID: number
   name: string
   description: string
+}
+
+export interface DoctypeDocument extends BaseModel {
+  doctypeDocumentID: number
+  documentID: number
+  doctypeID: number
 }
 
 export interface ContactService extends BaseModel {
@@ -54,9 +60,17 @@ export interface ContactService extends BaseModel {
   phone: string
 }
 
-export interface Documentation extends BaseModel {
-  documentationID: number
-  docTypeID: number
+export interface Document extends BaseModel {
+  documentID: number
+  doctypeID: number
+  name: string
+  language: string
+  size: number
+}
+
+export interface DoctypeDocument extends BaseModel {
+  doctypeDocumentID: number
+  doctypeID: number
   name: string
   language: string
   size: number

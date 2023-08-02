@@ -18,18 +18,18 @@ class FeaturedImageModel extends Model<
 
 FeaturedImageModel.init(
   {
-    featuredImageID: {
+    featured_image_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    featuredImage: {
+    featured_image: {
       type: DataTypes.STRING,
     },
     thumbnail: {
       type: DataTypes.STRING,
     },
-    orderNumber: {
+    order_number: {
       type: DataTypes.NUMBER,
       allowNull: true,
     },

@@ -1,17 +1,13 @@
 import { DataTypes, Model, Optional } from 'sequelize'
 import sequelize from '~/config/sequelize'
-import DocTypeModel from './DocType.model'
-import { Documentation } from '~/utils/interface'
+import DoctypeModel from './Doctype.model'
+import { Document } from '~/utils/interface'
 
-interface DocumentationCreationAttributes
-  extends Optional<Documentation, 'documentationID'> {}
+interface DocumentCreationAttributes extends Optional<Document, 'documentID'> {}
 
-class DocumentationModel extends Model<
-  Documentation,
-  DocumentationCreationAttributes
-> {
-  public documentationID!: number
-  public docTypeID!: number
+class DocumentModel extends Model<Document, DocumentCreationAttributes> {
+  public documentID!: number
+  public doctypeID!: number
   public name!: string
   public language!: string
   public size!: number | null
@@ -19,18 +15,18 @@ class DocumentationModel extends Model<
   public slug?: string | null
 }
 
-DocumentationModel.init(
+DocumentModel.init(
   {
-    documentationID: {
+    documentID: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    docTypeID: {
+    doctypeID: {
       type: DataTypes.INTEGER,
       references: {
-        model: DocTypeModel,
-        key: 'docTypeID',
+        model: DoctypeModel,
+        key: 'doctypeID',
       },
     },
     name: {
@@ -53,12 +49,12 @@ DocumentationModel.init(
   },
   {
     sequelize,
-    tableName: 'documentations',
+    tableName: 'documents',
     timestamps: true,
     freezeTableName: true,
     underscored: true,
-    modelName: 'Documentation',
+    modelName: 'Document',
   },
 )
 
-export default DocumentationModel
+export default DocumentModel

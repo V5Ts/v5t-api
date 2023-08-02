@@ -4,7 +4,7 @@ import apiRoutes from './api'
 
 const router = express.Router()
 
-const NAMESPACE = 'routes[index.ts]'
+const NAMESPACE = '[routes/index.js]'
 
 router.use('/api', apiRoutes)
 
