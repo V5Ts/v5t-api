@@ -18,7 +18,18 @@ export const createBaseModel = <
   attributes: ModelAttributes,
   options: BaseModelOptions = {},
 ): ModelDefined<T, C> => {
-  return sequelize.define(modelName, attributes, {
+  const model = sequelize.define(modelName, attributes, {
     ...options,
   })
+
+  model
+    .sync()
+    .then(() => {
+      console.log(`${model.tableName} table created (if it did not exist).`)
+    })
+    .catch((error) => {
+      console.error(`Error creating ${model.tableName} table:`, error)
+    })
+
+  return model
 }

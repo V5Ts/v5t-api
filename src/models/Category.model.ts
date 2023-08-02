@@ -41,13 +41,4 @@ const CategoryModel = createBaseModel<
   CategoryCreationAttributes
 >('CategoryModel', categoryAttributes, categoryOptions)
 
-// Check if the table exists and create it if it doesn't
-CategoryModel.sync()
-  .then(() => {
-    console.log('Category table created (if it did not exist).')
-  })
-  .catch((error) => {
-    console.error('Error creating Category table:', error)
-  })
-
 export default CategoryModel
