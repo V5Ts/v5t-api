@@ -1,27 +1,27 @@
+import { UploadApiResponse } from 'cloudinary'
 import { Request, Response } from 'express'
-import { CategoryModel } from '~/models'
-import Category from '~/models/Category.model'
+import FeaturedImageModel from '~/models/FeaturedImage.model'
 import logging from '~/utils/logging'
 import { responser } from '~/utils/network'
 
-const NAMESPACE = '[controller/categories]'
-const modelName = 'Categories'
+const NAMESPACE = '[controller/featured-image]'
+const modelName = 'FeaturedImage'
 
 // Get by id
 export const getByID = async (req: Request, res: Response) => {
   const { id } = req.params
 
   try {
-    const category = await Category.findByPk(id)
+    const featuredImage = await FeaturedImageModel.findByPk(id)
 
-    if (!category) {
+    if (!featuredImage) {
       return responser(res.status(404), {}, `${modelName} not found!`)
     }
 
     logging.info(NAMESPACE, `${modelName} found successfully!`)
     return responser(
       res.status(200),
-      category,
+      featuredImage,
       `${modelName} found successfully!`,
     )
   } catch (error) {
@@ -32,12 +32,12 @@ export const getByID = async (req: Request, res: Response) => {
 // Get all
 export const getAll = async (req: Request, res: Response) => {
   try {
-    const categories = await Category.findAll()
+    const featuredImages = await FeaturedImageModel.findAll()
 
     logging.info(NAMESPACE, `Get all ${modelName} successfully`)
     return responser(
       res.status(200),
-      categories,
+      featuredImages,
       `Get all ${modelName} successfully!`,
     )
   } catch (error) {
@@ -47,19 +47,11 @@ export const getAll = async (req: Request, res: Response) => {
 
 // Create new
 export const createNew = async (req: Request, res: Response) => {
-  const body = req.body
-
-  const json = {
-    featured_image_id: body.featuredImageID,
-    name: body.name,
-    order_number: body.orderNumber,
-    slug: body.slug,
-  }
+  const result: UploadApiResponse | any = req.file
 
   try {
-    const item = await CategoryModel.create(json)
     logging.info(NAMESPACE, `${modelName} created successfully!`)
-    return responser(res.status(201), item)
+    return responser(res.status(201), result)
   } catch (error) {
     return responser(res.status(400), {}, (error as Error).message)
   }
@@ -78,13 +70,13 @@ export const updateByID = async (req: Request, res: Response) => {
   }
 
   try {
-    const category = await Category.findByPk(id)
+    const featuredImage = await FeaturedImageModel.findByPk(id)
 
-    if (!category) {
+    if (!featuredImage) {
       return responser(res.status(404), {}, `${modelName} not found!`)
     }
 
-    const updatedItem = await category.update(json)
+    const updatedItem = await featuredImage.update(json)
     logging.info(NAMESPACE, `${modelName} updated successfully!`)
     return responser(res.status(200), updatedItem)
   } catch (error) {
@@ -97,13 +89,13 @@ export const deleteByID = async (req: Request, res: Response) => {
   const { id } = req.params
 
   try {
-    const category = await Category.findByPk(id)
+    const featuredImage = await FeaturedImageModel.findByPk(id)
 
-    if (!category) {
+    if (!featuredImage) {
       return responser(res.status(404), {}, `${modelName} not found!`)
     }
 
-    await category.destroy()
+    await featuredImage.destroy()
     logging.info(NAMESPACE, `${modelName} deleted successfully!`)
     return responser(res.status(200), {}, `${modelName} deleted successfully!`)
   } catch (error) {

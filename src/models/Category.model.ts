@@ -1,9 +1,9 @@
 import { DataTypes, ModelAttributes, Optional } from 'sequelize'
 import { BaseModelOptions, createBaseModel } from './BaseModel'
-import { CategoryAttributes } from '~/utils/interface'
+import { Category } from '~/utils/interface'
 
 interface CategoryCreationAttributes
-  extends Optional<CategoryAttributes, 'category_id'> {}
+  extends Optional<Category, 'category_id'> {}
 
 const categoryAttributes: ModelAttributes = {
   category_id: {
@@ -36,9 +36,10 @@ const categoryOptions: BaseModelOptions = {
   underscored: true,
 }
 
-const CategoryModel = createBaseModel<
-  CategoryAttributes,
-  CategoryCreationAttributes
->('CategoryModel', categoryAttributes, categoryOptions)
+const CategoryModel = createBaseModel<Category, CategoryCreationAttributes>(
+  'CategoryModel',
+  categoryAttributes,
+  categoryOptions,
+)
 
 export default CategoryModel

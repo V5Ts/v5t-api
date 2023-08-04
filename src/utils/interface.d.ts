@@ -4,7 +4,7 @@ export interface BaseModel {
   slug?: string | null
 }
 
-export interface CategoryAttributes extends BaseModel {
+export interface Category extends BaseModel {
   category_id: number
   featured_image_id: number
   name: string
@@ -35,9 +35,9 @@ export interface Product extends BaseModel {
 }
 
 export interface FeaturedImage extends BaseModel {
-  featuredImageID: number
-  featuredImage: string
-  thumbnail: string
+  featured_image_id: number
+  featured_image?: string | null
+  thumbnail?: string | null
 }
 
 export interface Doctype extends BaseModel {
