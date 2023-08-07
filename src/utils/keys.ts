@@ -20,8 +20,14 @@ export default {
     },
   },
   cloudinary: {
-    cloudName: process.env.CLOUD_NAME,
-    apiKey: process.env.CLOUD_API_KEY,
-    apiSecret: process.env.CLOUD_API_SECRET,
+    cloudName: process.env.CLOUD_NAME || '',
+    apiKey: process.env.CLOUD_API_KEY || '',
+    apiSecret: process.env.CLOUD_API_SECRET || '',
+  },
+  googleDrive: {
+    clientId: process.env.GOOGLE_DRIVE_CLIENT_ID || '',
+    clientSecret: process.env.GOOGLE_DRIVE_CLIENT_SECRET || '',
+    redirectURL: process.env.GOOGLE_DRIVE_REDIRECT_URI || '',
+    refreshToken: process.env.GOOGLE_DRIVE_REFRESH_TOKEN || '',
   },
 }

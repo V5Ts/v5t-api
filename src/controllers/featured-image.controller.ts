@@ -1,8 +1,11 @@
-import { UploadApiResponse } from 'cloudinary'
 import { Request, Response } from 'express'
+import path from 'path'
 import FeaturedImageModel from '~/models/FeaturedImage.model'
+import { GoogleDriveService } from '~/services/googleDriveService'
+import keys from '~/utils/keys'
 import logging from '~/utils/logging'
 import { responser } from '~/utils/network'
+import fs from 'fs'
 
 const NAMESPACE = '[controller/featured-image]'
 const modelName = 'FeaturedImage'
@@ -47,11 +50,74 @@ export const getAll = async (req: Request, res: Response) => {
 
 // Create new
 export const createNew = async (req: Request, res: Response) => {
-  const result: UploadApiResponse | any = req.file
+  const result: any = req.file
+  const { orderNumber } = req.body
 
   try {
+    const item = await FeaturedImageModel.create({
+      featured_image: result.path,
+      thumbnail: result.path,
+      order_number: orderNumber,
+      slug: result.filename,
+    })
+
     logging.info(NAMESPACE, `${modelName} created successfully!`)
-    return responser(res.status(201), result)
+    return responser(res.status(201), item)
+  } catch (error) {
+    return responser(res.status(400), {}, (error as Error).message)
+  }
+}
+
+// Create new
+export const uploadImage = async (req: Request, res: Response) => {
+  const folderName = 'Featured Images'
+
+  try {
+    const finalPath = path.resolve(__dirname, 'public/IMG_1203.png')
+
+    if (!fs.existsSync(finalPath)) {
+      throw new Error('File not found!')
+    }
+
+    const googleDriveService = new GoogleDriveService(
+      keys.googleDrive.clientId,
+      keys.googleDrive.clientSecret,
+      keys.googleDrive.redirectURL,
+      keys.googleDrive.refreshToken,
+    )
+
+    let folder = await googleDriveService
+      .searchFolder(folderName)
+      .catch((error) => {
+        console.error(error)
+        return null
+      })
+
+    if (!folder) {
+      folder = await googleDriveService.createFolder(folderName)
+    }
+
+    // .saveFile(
+    //   req.file?.originalname || req.file?.filename || '',
+    //   req.file?.path || '',
+    //   req.file?.mimetype || '',
+    //   folder.id,
+    // )
+    await googleDriveService
+      .saveFile('SpaceX', finalPath, 'image/jpg', folder.id)
+      .catch((error: Error) => {
+        console.error(error)
+      })
+
+    // const item = await FeaturedImageModel.create({
+    //   featured_image: result.path,
+    //   thumbnail: result.path,
+    //   order_number: orderNumber,
+    //   slug: result.filename,
+    // })
+
+    logging.info(NAMESPACE, `${modelName} created successfully!`)
+    return responser(res.status(201))
   } catch (error) {
     return responser(res.status(400), {}, (error as Error).message)
   }
